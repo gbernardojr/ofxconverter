@@ -141,4 +141,4 @@ if uploaded_file is not None:
 st.markdown("---")
 st.markdown("**Contato:**")
 st.markdown("GBernardo Tecnologia da Informação")
-st.markdown("**WhatsApp:** (16) 9.8857-2758")
+st.markdown("**E-mail:** gilberto@gbernardojr.com.br  |  **WhatsApp:** (16) 9.8857-2758")
