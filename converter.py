@@ -139,4 +139,6 @@ if uploaded_file is not None:
 
 # Rodapé com informações de contato
 st.markdown("---")
-st.markdown("**Contato:** GBernardo Tecnologia da Informação: gilberto@gbernardojr.com.br | **WhatsApp:** (16) 9.8857-2758")
+st.markdown("**Contato:**")
+st.markdown("GBernardo Tecnologia da Informação")
+st.markdown("**WhatsApp:** (16) 9.8857-2758")
