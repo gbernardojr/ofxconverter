@@ -140,7 +140,7 @@ if uploaded_file is not None:
 st.markdown("---")
 st.markdown("**Incentivo**")
 st.write("Se desejar, contribua com um donativo de qualquer quantia para ajudar a manter o serviço no ar.")
-st.image("caminho/do/seu/qrcodeOFXConverter.jfif", width=150)  # Substitua com o caminho do arquivo .jfif do QR code
+st.image("qrcodeOFXConverter.jpg", width=150)  # Substitua com o caminho do arquivo .jfif do QR code
 
 # Rodapé com informações de contato
 st.markdown("---")
