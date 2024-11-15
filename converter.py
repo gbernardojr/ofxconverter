@@ -111,7 +111,6 @@ def convert_ofx_to_bytes(ofx_data):
     return ofx_data.encode('utf-8')
 
 # Início da aplicação Streamlit
-#st.title("Accross Business Intelligence")
 st.title("Conversor de PDF para OFX")
 
 st.markdown("---")
@@ -136,6 +135,12 @@ if uploaded_file is not None:
         file_name="extrato.ofx",
         mime="application/x-ofx"
     )
+
+# Frase e QR Code para donativos
+st.markdown("---")
+st.markdown("**Incentivo**")
+st.write("Se desejar, contribua com um donativo de qualquer quantia para ajudar a manter o serviço no ar.")
+st.image("caminho/do/seu/qrcodeOFXConverter.jfif", width=150)  # Substitua com o caminho do arquivo .jfif do QR code
 
 # Rodapé com informações de contato
 st.markdown("---")
