@@ -215,7 +215,7 @@ st.subheader("4. Apoie o projeto")
 st.markdown("""
 Para ajudar a manter este projeto e implementar melhorias, considere fazer uma doação de qualquer valor. Sua contribuição é muito importante!
 """)
-st.image("./qrcodeOFXConverter.jpg", width=150, caption="Use o QR Code para enviar sua contribuição.")
+st.image("./images/qrcodeOFXConverter.jpg", width=150, caption="Use o QR Code para enviar sua contribuição.")
 st.markdown("**Chave PIX:** gilberto@gbernardoti.com.br")
 
 st.markdown("---")
