@@ -187,7 +187,7 @@ st.markdown("**Chave PIX:** gilberto@gbernardoti.com.br")
 st.markdown("---")
 st.markdown("""
 #### Desenvolvedores:
-**Gilberto Aparecido Bernardo Junior**
+**Gilberto Aparecido Bernardo Junior** 
 **Gabrielli Letícia**  
 
 **WhatsApp:** +55 (16) 9.8857-2758  
