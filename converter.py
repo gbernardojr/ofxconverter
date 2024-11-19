@@ -178,7 +178,10 @@ Para ajudar a manter este projeto e implementar melhorias, considere fazer uma d
 """)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 qr_code_path = os.path.join("static", "qrcodeOFXConverter.jpg")
-st.image("qrcodeOFXConverter.jpg", width=150, caption="Use o QR Code para enviar sua contribuição.")
+st.image("https://raw.githubusercontent.com/gbernardojr/ofxconverter/main/static/qrcodeOFXConverter.jpg", 
+         width=150, 
+         caption="Use o QR Code para enviar sua contribuição.")
+
 st.markdown("**Chave PIX:** gilberto@gbernardoti.com.br")
 
 st.markdown("---")
