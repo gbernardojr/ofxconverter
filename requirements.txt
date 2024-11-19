@@ -1,4 +1,4 @@
 streamlit==1.26.0  # Framework para criar a interface web
 pdfplumber==0.9.0  # Para extrair dados de PDFs
 pytesseract==0.3.10  # Para OCR em arquivos digitalizados
-Pillow==9.3.0  # Biblioteca para manipulação de imagens
+# Pillow==9.3.0  # Biblioteca para manipulação de imagens
