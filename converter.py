@@ -185,6 +185,7 @@ if uploaded_pdf is not None:
         mime="application/x-ofx"
     )
 
+'''
 st.markdown("---")
 st.subheader("2. Converter relatório digitalizado para OFX")
 uploaded_image = st.file_uploader("Escolha uma imagem do relatório digitalizado", type=["png", "jpg", "jpeg"])
@@ -197,6 +198,8 @@ if uploaded_image is not None:
         file_name="extrato_digitalizado.ofx",
         mime="application/x-ofx"
     )
+
+'''
 
 st.markdown("---")
 st.subheader("3. Envie sugestões ou pedidos")
