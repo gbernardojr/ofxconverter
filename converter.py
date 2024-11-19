@@ -5,6 +5,7 @@ from email.mime.text import MIMEText
 import pdfplumber
 import re
 from datetime import datetime
+import os
 
 # Configurações de e-mail
 def send_email(name, email, phone, message):
@@ -175,6 +176,8 @@ st.subheader("3. Apoie o projeto")
 st.markdown("""
 Para ajudar a manter este projeto e implementar melhorias, considere fazer uma doação de qualquer valor. Sua contribuição é muito importante!
 """)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+qr_code_path = os.path.join(current_dir, "qrcodeOFXConverter.jpg")
 st.image("qrcodeOFXConverter.jpg", width=150, caption="Use o QR Code para enviar sua contribuição.")
 st.markdown("**Chave PIX:** gilberto@gbernardoti.com.br")
 
