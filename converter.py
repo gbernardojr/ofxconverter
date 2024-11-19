@@ -1,14 +1,48 @@
 import streamlit as st
-import pytesseract
-from PIL import Image
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import pdfplumber
 import re
 from datetime import datetime
+from pytesseract import image_to_string
+from PIL import Image
 import io
 
-# Configure o caminho para o Tesseract OCR (necessário apenas no Windows)
-# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# Configurações de e-mail
+def send_email(name, email, phone, message):
+    sender_email = "accrossconverter@gmail.com"
+    sender_password = "jmhv smap mkrf btdv"
+    receiver_email = "gilberto@gbernardoti.com.br"
 
+    subject = f"Novo comentário de {name}"
+    body = f"""
+    Nome: {name}
+    E-mail: {email}
+    Telefone: {phone}
+    
+    Mensagem:
+    {message}
+    """
+
+    # Criar o e-mail
+    msg = MIMEMultipart()
+    msg["From"] = sender_email
+    msg["To"] = receiver_email
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain"))
+
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:  # Servidor e porta do Gmail
+            server.starttls()  # Inicia conexão segura
+            server.login(sender_email, sender_password)  # Login no servidor
+            server.sendmail(sender_email, receiver_email, msg.as_string())  # Envia o e-mail
+        return "Mensagem enviada com sucesso!"
+    except Exception as e:
+        return f"Erro ao enviar mensagem: {e}"
+
+
+# Funções de conversão
 def parse_date(date_str):
     try:
         return datetime.strptime(date_str, "%d/%m/%Y").strftime("%Y%m%d")
@@ -43,14 +77,13 @@ def extract_transactions_from_pdf(pdf_file):
     return transactions
 
 def extract_transactions_from_image(image_file):
+    img = Image.open(image_file)
+    text = image_to_string(img, lang="por")
     transactions = []
     date_pattern = re.compile(r"\d{2}/\d{2}/\d{4}")
     amount_pattern = re.compile(r"[-+]?\d+,\d{2}")
 
-    image = Image.open(image_file)
-    text = pytesseract.image_to_string(image, lang="por")  # OCR para português
-    lines = text.split("\n")
-    for line in lines:
+    for line in text.split("\n"):
         date_match = date_pattern.search(line)
         amount_match = amount_pattern.search(line)
         if date_match and amount_match:
@@ -135,40 +168,63 @@ NEWFILEUID:NONE
 
     return ofx_content
 
-def convert_ofx_to_bytes(ofx_data):
-    return ofx_data.encode('utf-8')
 
-# Início da aplicação Streamlit
-st.title("Conversor de Arquivos para OFX")
+# Interface do Streamlit
+st.title("Conversor de PDF e Relatórios Digitalizados para OFX")
 
 st.markdown("---")
-st.markdown("### Escolha uma opção abaixo:")
-
-# Botão para PDF
-uploaded_pdf = st.file_uploader("Carregar um arquivo PDF", type="pdf")
+st.subheader("1. Converter PDF para OFX")
+uploaded_pdf = st.file_uploader("Escolha um arquivo PDF", type="pdf")
 if uploaded_pdf is not None:
     transactions = extract_transactions_from_pdf(uploaded_pdf)
     ofx_content = create_ofx_content(transactions)
-    ofx_bytes = convert_ofx_to_bytes(ofx_content)
     st.download_button(
-        label="Baixar arquivo OFX (PDF)",
-        data=ofx_bytes,
-        file_name="extrato_pdf.ofx",
-        mime="application/x-ofx"
-    )
-
-# Botão para imagens escaneadas
-uploaded_image = st.file_uploader("Carregar um arquivo de imagem (relatório digitalizado)", type=["jpg", "jpeg", "png"])
-if uploaded_image is not None:
-    transactions = extract_transactions_from_image(uploaded_image)
-    ofx_content = create_ofx_content(transactions)
-    ofx_bytes = convert_ofx_to_bytes(ofx_content)
-    st.download_button(
-        label="Baixar arquivo OFX (Imagem)",
-        data=ofx_bytes,
-        file_name="extrato_imagem.ofx",
+        label="Baixar arquivo OFX",
+        data=ofx_content.encode('utf-8'),
+        file_name="extrato.ofx",
         mime="application/x-ofx"
     )
 
 st.markdown("---")
-st.markdown("**Contato:** gilberto@gbernardojr.com.br | WhatsApp: (16) 9.8857-2758")
+st.subheader("2. Converter relatório digitalizado para OFX")
+uploaded_image = st.file_uploader("Escolha uma imagem do relatório digitalizado", type=["png", "jpg", "jpeg"])
+if uploaded_image is not None:
+    transactions = extract_transactions_from_image(uploaded_image)
+    ofx_content = create_ofx_content(transactions)
+    st.download_button(
+        label="Baixar arquivo OFX",
+        data=ofx_content.encode('utf-8'),
+        file_name="extrato_digitalizado.ofx",
+        mime="application/x-ofx"
+    )
+
+st.markdown("---")
+st.subheader("3. Envie sugestões ou pedidos")
+with st.form(key="contact_form"):
+    name = st.text_input("Nome")
+    phone = st.text_input("Celular")
+    email = st.text_input("E-mail")
+    message = st.text_area("Sua mensagem")
+    submitted = st.form_submit_button("Enviar mensagem")
+    if submitted:
+        response = send_email(name, email, phone, message)
+        st.success(response)
+
+st.markdown("---")
+st.subheader("4. Apoie o projeto")
+st.markdown("""
+Para ajudar a manter este projeto e implementar melhorias, considere fazer uma doação de qualquer valor. Sua contribuição é muito importante!
+""")
+st.image("./qrcodeOFXConverter.jpg", width=150, caption="Use o QR Code para enviar sua contribuição.")
+st.markdown("**Chave PIX:** gilberto@gbernardoti.com.br")
+
+st.markdown("---")
+st.markdown("""
+#### Desenvolvedores:
+**Gabrielli Letícia**  
+**Gilberto Aparecido Bernardo Junior**
+
+**WhatsApp:** +55 (16) 9.8857-2758  
+**E-mail:** [gilberto@gbernardoti.com.br](mailto:gilberto@gbernardoti.com.br)  
+Araraquara - SP - Brasil
+""")
