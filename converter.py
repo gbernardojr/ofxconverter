@@ -5,9 +5,6 @@ from email.mime.text import MIMEText
 import pdfplumber
 import re
 from datetime import datetime
-from pytesseract import image_to_string
-from PIL import Image
-import io
 
 # Configurações de e-mail
 def send_email(name, email, phone, message):
@@ -41,7 +38,6 @@ def send_email(name, email, phone, message):
     except Exception as e:
         return f"Erro ao enviar mensagem: {e}"
 
-
 # Funções de conversão
 def parse_date(date_str):
     try:
@@ -73,28 +69,6 @@ def extract_transactions_from_pdf(pdf_file):
                         "description": description,
                         "amount": amount
                     })
-    
-    return transactions
-
-def extract_transactions_from_image(image_file):
-    img = Image.open(image_file)
-    text = image_to_string(img, lang="por")
-    transactions = []
-    date_pattern = re.compile(r"\d{2}/\d{2}/\d{4}")
-    amount_pattern = re.compile(r"[-+]?\d+,\d{2}")
-
-    for line in text.split("\n"):
-        date_match = date_pattern.search(line)
-        amount_match = amount_pattern.search(line)
-        if date_match and amount_match:
-            date = parse_date(date_match.group())
-            amount = parse_amount(amount_match.group())
-            description = line[:date_match.start()].strip()
-            transactions.append({
-                "date": date,
-                "description": description,
-                "amount": amount
-            })
     
     return transactions
 
@@ -168,9 +142,8 @@ NEWFILEUID:NONE
 
     return ofx_content
 
-
 # Interface do Streamlit
-st.title("Conversor de PDF e Relatórios Digitalizados para OFX")
+st.title("Conversor de PDF para OFX")
 
 st.markdown("---")
 st.subheader("1. Converter PDF para OFX")
@@ -185,24 +158,8 @@ if uploaded_pdf is not None:
         mime="application/x-ofx"
     )
 
-'''
 st.markdown("---")
-st.subheader("2. Converter relatório digitalizado para OFX")
-uploaded_image = st.file_uploader("Escolha uma imagem do relatório digitalizado", type=["png", "jpg", "jpeg"])
-if uploaded_image is not None:
-    transactions = extract_transactions_from_image(uploaded_image)
-    ofx_content = create_ofx_content(transactions)
-    st.download_button(
-        label="Baixar arquivo OFX",
-        data=ofx_content.encode('utf-8'),
-        file_name="extrato_digitalizado.ofx",
-        mime="application/x-ofx"
-    )
-
-'''
-
-st.markdown("---")
-st.subheader("3. Envie sugestões ou pedidos")
+st.subheader("2. Envie sugestões ou pedidos")
 with st.form(key="contact_form"):
     name = st.text_input("Nome")
     phone = st.text_input("Celular")
@@ -214,7 +171,7 @@ with st.form(key="contact_form"):
         st.success(response)
 
 st.markdown("---")
-st.subheader("4. Apoie o projeto")
+st.subheader("3. Apoie o projeto")
 st.markdown("""
 Para ajudar a manter este projeto e implementar melhorias, considere fazer uma doação de qualquer valor. Sua contribuição é muito importante!
 """)
@@ -224,8 +181,8 @@ st.markdown("**Chave PIX:** gilberto@gbernardoti.com.br")
 st.markdown("---")
 st.markdown("""
 #### Desenvolvedores:
-**Gabrielli Letícia**  
 **Gilberto Aparecido Bernardo Junior**
+**Gabrielli Letícia**  
 
 **WhatsApp:** +55 (16) 9.8857-2758  
 **E-mail:** [gilberto@gbernardoti.com.br](mailto:gilberto@gbernardoti.com.br)  
