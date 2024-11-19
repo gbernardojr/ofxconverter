@@ -189,6 +189,7 @@ st.markdown("""
 #### Desenvolvedores:
 
 **Gilberto Aparecido Bernardo Junior** 
+
 **Gabrielli Letícia**  
 
 **WhatsApp:** +55 (16) 9.8857-2758  
