@@ -138,66 +138,89 @@ VERSION:102
 st.title("Conversor de PDF para OFX")
 st.markdown("---")
 
-# Conversão de PDF para OFX
-st.subheader("1. Converter PDF para OFX")
-uploaded_pdf = st.file_uploader("Escolha um arquivo PDF", type="pdf")
-if uploaded_pdf:
-    transactions = extract_transactions_from_pdf(uploaded_pdf)
-    ofx_content = create_ofx_content(transactions)
-    st.download_button(
-        label="Baixar arquivo OFX",
-        data=ofx_content.encode("utf-8"),
-        file_name="extrato.ofx",
-        mime="application/x-ofx"
-    )
+# Layout com área de conteúdo principal e anúncios
+col1, col2 = st.columns([4, 2])  # Define proporção de colunas (4:1)
 
-# OCR e conversão para OFX
-st.subheader("2. Converter imagem ou PDF digitalizado para OFX")
-uploaded_image = st.file_uploader("Escolha uma imagem ou PDF digitalizado", type=["jpg", "png", "jpeg", "pdf"])
-if uploaded_image:
-    temp_path = f"temp_file.{uploaded_image.name.split('.')[-1]}"
-    with open(temp_path, "wb") as temp_file:
-        temp_file.write(uploaded_image.read())
+with col1:
 
-    extracted_text = perform_ocr(temp_path)
-    os.remove(temp_path)
-    st.text_area("Texto OCR", extracted_text)
-    if st.button("Converter texto OCR para OFX"):
-        ofx_path = create_ofx_content([{"date": "20240101", "description": "Exemplo", "amount": 100.0}])
-        st.download_button("Baixar arquivo OFX", data=ofx_path.encode("utf-8"), file_name="ocr_result.ofx")
+    # Conversão de PDF para OFX
+    st.subheader("1. Converter PDF para OFX")
+    uploaded_pdf = st.file_uploader("Escolha um arquivo PDF", type="pdf")
+    if uploaded_pdf:
+        transactions = extract_transactions_from_pdf(uploaded_pdf)
+        ofx_content = create_ofx_content(transactions)
+        st.download_button(
+            label="Baixar arquivo OFX",
+            data=ofx_content.encode("utf-8"),
+            file_name="extrato.ofx",
+            mime="application/x-ofx"
+        )
 
-# Formulário de contato
-st.subheader("3. Envie sugestões ou pedidos")
-with st.form("contact_form"):
-    name = st.text_input("Nome")
-    phone = st.text_input("Celular")
-    email = st.text_input("E-mail")
-    message = st.text_area("Sua mensagem")
-    if st.form_submit_button("Enviar mensagem"):
-        response = send_email(name, email, phone, message)
-        st.success(response)
+    # OCR e conversão para OFX
+    st.subheader("2. Converter imagem ou PDF digitalizado para OFX")
+    uploaded_image = st.file_uploader("Escolha uma imagem ou PDF digitalizado", type=["jpg", "png", "jpeg", "pdf"])
+    if uploaded_image:
+        temp_path = f"temp_file.{uploaded_image.name.split('.')[-1]}"
+        with open(temp_path, "wb") as temp_file:
+            temp_file.write(uploaded_image.read())
 
-st.markdown("---")
-st.subheader("4. Apoie o projeto")
-st.markdown("""
-Para ajudar a manter este projeto e implementar melhorias, considere fazer uma doação de qualquer valor. Sua contribuição é muito importante!
-""")
-current_dir = os.path.dirname(os.path.abspath(__file__))
-qr_code_path = os.path.join("static", "qrcodeOFXConverter.jpg")
-st.image("https://raw.githubusercontent.com/gbernardojr/ofxconverter/refs/heads/main/qrCodeOFXConverter.jpg", 
-         width=150, 
-         caption="Use o QR Code para enviar sua contribuição.")
+        extracted_text = perform_ocr(temp_path)
+        os.remove(temp_path)
+        st.text_area("Texto OCR", extracted_text)
+        if st.button("Converter texto OCR para OFX"):
+            ofx_path = create_ofx_content([{"date": "20240101", "description": "Exemplo", "amount": 100.0}])
+            st.download_button("Baixar arquivo OFX", data=ofx_path.encode("utf-8"), file_name="ocr_result.ofx")
 
-st.markdown("**Chave PIX:** gilberto@gbernardoti.com.br")
+    # Formulário de contato
+    st.subheader("3. Envie sugestões ou pedidos")
+    with st.form("contact_form"):
+        name = st.text_input("Nome")
+        phone = st.text_input("Celular")
+        email = st.text_input("E-mail")
+        message = st.text_area("Sua mensagem")
+        if st.form_submit_button("Enviar mensagem"):
+            response = send_email(name, email, phone, message)
+            st.success(response)
 
-# Rodapé com informações de contato
-st.markdown("---")
-st.markdown("""
-**Desenvolvedores:**  
-- Gilberto Aparecido Bernardo Junior  
-- Gabrielli Letícia Souza Stencel  
+    st.markdown("---")
+    st.subheader("4. Apoie o projeto")
+    st.markdown("""
+    Para ajudar a manter este projeto e implementar melhorias, considere fazer uma doação de qualquer valor. Sua contribuição é muito importante!
+    """)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    qr_code_path = os.path.join("static", "qrcodeOFXConverter.jpg")
+    st.image("https://raw.githubusercontent.com/gbernardojr/ofxconverter/refs/heads/main/qrCodeOFXConverter.jpg", 
+            width=150, 
+            caption="Use o QR Code para enviar sua contribuição.")
 
-**WhatsApp:** +55 (16) 9.8857-2758  
-**E-mail:** [gilberto@gbernardoti.com.br](mailto:gilberto@gbernardoti.com.br)  
-**Localização:** Araraquara - SP - Brasil
-""")
+    st.markdown("**Chave PIX:** gilberto@gbernardoti.com.br")
+
+    # Rodapé com informações de contato
+    st.markdown("---")
+    st.markdown("""
+    **Desenvolvedores:**  
+    - Gilberto Aparecido Bernardo Junior  
+    - Gabrielli Letícia Souza Stencel  
+
+    **WhatsApp:** +55 (16) 9.8857-2758  
+    **E-mail:** [gilberto@gbernardoti.com.br](mailto:gilberto@gbernardoti.com.br)  
+    **Localização:** Araraquara - SP - Brasil
+    """)
+    
+with col2:
+    st.subheader("Publicidade")
+    #st.markdown("### Apoie este projeto exibindo anúncios relevantes.")
+    # Adicione o código do Google AdSense
+    st.markdown("""
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5482408351463332
+         data-ad-slot="9361640888"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    """, unsafe_allow_html=True)
