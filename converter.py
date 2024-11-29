@@ -17,6 +17,24 @@ SENDER_EMAIL = "accrossconverter@gmail.com"
 SENDER_PASSWORD = "jmhv smap mkrf btdv"
 OCR_API_URL = "https://api.ocr.space/parse/image"
 OCR_API_KEY = 'K85741052388957'
+VISIT_COUNT_FILE = "visit_count.txt"
+
+# Função para carregar e incrementar o contador de visitantes
+def update_visit_count():
+    if not os.path.exists(VISIT_COUNT_FILE):
+        with open(VISIT_COUNT_FILE, "w") as f:
+            f.write("0")
+    with open(VISIT_COUNT_FILE, "r+") as f:
+        count = int(f.read())
+        count += 1
+        f.seek(0)
+        f.write(str(count))
+        f.truncate()
+    return count
+
+# Atualiza e exibe o contador de visitantes
+visit_count = update_visit_count()
+
 
 
 # Função para enviar e-mail
@@ -137,6 +155,9 @@ VERSION:102
 # Interface Streamlit
 st.title("Conversor de PDF para OFX")
 st.markdown("---")
+# Exibe o contador de visitantes no topo da página
+st.markdown(f"### 👤 Visitantes únicos: {visit_count}")
+
 
 # Layout com área de conteúdo principal e anúncios
 col1, col2 = st.columns([4, 2])  # Define proporção de colunas (4:1)
