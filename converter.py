@@ -155,9 +155,6 @@ VERSION:102
 # Interface Streamlit
 st.title("Conversor de PDF para OFX")
 st.markdown("---")
-# Exibe o contador de visitantes no topo da página
-st.markdown(f"### 👤 Visitantes únicos: {visit_count}")
-
 
 # Layout com área de conteúdo principal e anúncios
 col1, col2 = st.columns([4, 2])  # Define proporção de colunas (4:1)
@@ -227,6 +224,9 @@ with col1:
     **E-mail:** [gilberto@gbernardoti.com.br](mailto:gilberto@gbernardoti.com.br)  
     **Localização:** Araraquara - SP - Brasil
     """)
+    st.markdown("---")
+    # Exibe o contador de visitantes no topo da página
+    st.markdown(f"### 👤 Visitantes únicos: {visit_count}")    
     
 with col2:
     st.subheader("Publicidade")
