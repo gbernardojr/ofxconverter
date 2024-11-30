@@ -218,7 +218,7 @@ with col1:
     st.markdown("""
     **Desenvolvedores:**  
     - Gilberto Aparecido Bernardo Junior  
-    - Gabrielli Letícia Souza Stencel  
+    - Gabrielli Leticia Souza Stencel  
 
     **WhatsApp:** +55 (16) 9.8857-2758  
     **E-mail:** [gilberto@gbernardoti.com.br](mailto:gilberto@gbernardoti.com.br)  
