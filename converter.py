@@ -230,6 +230,7 @@ with col1:
     
 with col2:
     st.subheader("Publicidade")
+    ´´´
     #st.markdown("### Apoie este projeto exibindo anúncios relevantes.")
     # Adicione o código do Google AdSense
     st.markdown("""
@@ -245,3 +246,4 @@ with col2:
          (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     """, unsafe_allow_html=True)
+    ´´´
