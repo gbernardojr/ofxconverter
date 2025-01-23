@@ -230,20 +230,3 @@ with col1:
     
 with col2:
     st.subheader("Publicidade")
-    ´´´
-    #st.markdown("### Apoie este projeto exibindo anúncios relevantes.")
-    # Adicione o código do Google AdSense
-    st.markdown("""
-    <script async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-5482408351463332
-         data-ad-slot="9361640888"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    """, unsafe_allow_html=True)
-    ´´´
